@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-08-08T08:44:50.134Z</updated>
+  <updated>2024-08-08T12:56:53.366Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql题目练习</title>
+    <link href="http://example.com/2024/08/08/mysql%E9%A2%98%E7%9B%AE%E7%BB%83%E4%B9%A0/"/>
+    <id>http://example.com/2024/08/08/mysql%E9%A2%98%E7%9B%AE%E7%BB%83%E4%B9%A0/</id>
+    <published>2024-08-08T09:12:40.000Z</published>
+    <updated>2024-08-08T12:56:53.366Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h4 id=&quot;mod-函数&quot;&gt;&lt;a href=&quot;#mod-函数&quot; class=&quot;headerlink&quot; title=&quot;mod()函数&quot;&gt;&lt;/a&gt;&lt;code&gt;mod()&lt;/code&gt;函数&lt;/h4&gt;&lt;p&gt;我们可以使用 &lt;code&gt;mod(id,2)=1&lt;/code&gt; 来确定奇数</summary>
+        
+      
+    
+    
+    
+    <category term="题目训练" scheme="http://example.com/categories/%E9%A2%98%E7%9B%AE%E8%AE%AD%E7%BB%83/"/>
+    
+    
+    <category term="sql语句" scheme="http://example.com/tags/sql%E8%AF%AD%E5%8F%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>计算机网络--基础篇</title>

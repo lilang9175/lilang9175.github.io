@@ -22,6 +22,128 @@
       </categories>
   </entry>
   <entry>
+    <title>mysql题目练习</title>
+    <url>/2024/08/08/mysql%E9%A2%98%E7%9B%AE%E7%BB%83%E4%B9%A0/</url>
+    <content><![CDATA[<h4 id="mod-函数"><a href="#mod-函数" class="headerlink" title="mod()函数"></a><code>mod()</code>函数</h4><p>我们可以使用 <code>mod(id,2)=1</code> 来确定奇数 id</p>
+<p>表：<code>cinema</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+----------------+----------+</span><br><span class="line">| Column Name    | Type     |</span><br><span class="line">+----------------+----------+</span><br><span class="line">| id             | int      |</span><br><span class="line">| movie          | varchar  |</span><br><span class="line">| description    | varchar  |</span><br><span class="line">| rating         | float    |</span><br><span class="line">+----------------+----------+</span><br><span class="line">id 是该表的主键(具有唯一值的列)。</span><br><span class="line">每行包含有关电影名称、类型和评级的信息。</span><br><span class="line">评级为 [0,10] 范围内的小数点后 2 位浮点数。</span><br></pre></td></tr></table></figure>
+
+<p>编写解决方案，找出所有影片描述为 <strong>非</strong> <code>boring</code> (不无聊) 的并且 <strong>id 为奇数</strong> 的影片。</p>
+<p>返回结果按 <code>rating</code> <strong>降序排列</strong>。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select * from cinema where description !=&quot;boring&quot; and mod(id,2)=1 order by rating desc</span><br></pre></td></tr></table></figure>
+
+<h4 id="IF-IFNULL-NULLIF-ISNULL-区别"><a href="#IF-IFNULL-NULLIF-ISNULL-区别" class="headerlink" title="IF(),IFNULL(),NULLIF(),ISNULL()区别"></a>IF(),IFNULL(),NULLIF(),ISNULL()区别</h4><ul>
+<li><h4 id="IF-函数的使用"><a href="#IF-函数的使用" class="headerlink" title="IF()函数的使用"></a>IF()函数的使用</h4><ul>
+<li><p>IF(expr1,expr2,expr3)，如果expr1的值为true，则返回expr2的值，如果expr1的值为false，则返回expr3的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT IF(TRUE,&#x27;A&#x27;,&#x27;B&#x27;);    -- 输出结果：A</span><br><span class="line">SELECT IF(FALSE,&#x27;A&#x27;,&#x27;B&#x27;);   -- 输出结果：B</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><h4 id="IFNULL-函数的使用"><a href="#IFNULL-函数的使用" class="headerlink" title="IFNULL()函数的使用"></a>IFNULL()函数的使用</h4><ul>
+<li><p>IFNULL(expr1,expr2)，如果expr1的值为null，则返回expr2的值，如果expr1的值不为null，则返回expr1的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT IFNULL(NULL,&#x27;B&#x27;);    -- 输出结果：B</span><br><span class="line">SELECT IFNULL(&#x27;HELLO&#x27;,&#x27;B&#x27;); -- 输出结果：HELLO</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><h4 id="NULLIF-函数的使用"><a href="#NULLIF-函数的使用" class="headerlink" title="NULLIF()函数的使用"></a>NULLIF()函数的使用</h4><ul>
+<li><p>NULLIF(expr1,expr2)，如果expr1&#x3D;expr2成立，那么返回值为null，否则返回值为expr1的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT NULLIF(&#x27;A&#x27;,&#x27;A&#x27;);     -- 输出结果：null</span><br><span class="line">SELECT NULLIF(&#x27;A&#x27;,&#x27;B&#x27;);     -- 输出结果：A</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><h4 id="ISNULL-函数的使用"><a href="#ISNULL-函数的使用" class="headerlink" title="ISNULL()函数的使用"></a>ISNULL()函数的使用</h4><ul>
+<li><p>ISNULL(expr)，如果expr的值为null，则返回1，如果expr1的值不为null，则返回0。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">SELECT ISNULL(NULL);        -- 输出结果：1</span><br><span class="line">SELECT ISNULL(&#x27;HELLO&#x27;);     -- 输出结果：0</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="MySQL中date（）函数详解"><a href="#MySQL中date（）函数详解" class="headerlink" title="MySQL中date（）函数详解"></a>MySQL中date（）函数详解</h4><ul>
+<li><p><code>now()</code></p>
+<blockquote>
+<p>返回当前日期时间</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 返回当前日期时间，如：2021-03-17 14:44:06</span><br><span class="line">select now();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>curdate()</code></p>
+<blockquote>
+<p>返回当前日期</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 返回当前日期，如：2021-03-17</span><br><span class="line">select curdate();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>curtime()</code></p>
+<blockquote>
+<p>返回当前时间</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 返回当前时间，如：14:46:00</span><br><span class="line">select curtime();</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>date(date)</code></p>
+<blockquote>
+<p>提取时间的日期部分</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 如：2021-03-17，(now()可换成具体的字段）</span><br><span class="line">select date(now());</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>extract(expr for date)</code></p>
+<blockquote>
+<p>返回时间的指定部分的值，(now()可换成具体的字段）其他日期参数详见：<a href="https://www.runoob.com/sql/func-extract.html">https://www.runoob.com/sql/func-extract.html</a></p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 年：2021，月：3，日：17等等，(now()可换成具体的字段）</span><br><span class="line">select extract(year from now()),extract(month from now()),extract(day from now());</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>date_add(date,interval num expr)</code></p>
+<blockquote>
+<p>在指定时间上增加指定日期，具体类型有year，month，day等，(now()可换成具体的字段）详情请参考：<a href="https://www.runoob.com/sql/func-date-add.html">https://www.runoob.com/sql/func-date-add.html</a></p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 当前时间延后45天</span><br><span class="line">select date_add(now(),interval 45 day);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>date_sub(date,interval num expr)</code></p>
+<blockquote>
+<p>在指定时间上减少指定日期，具体类型有year，month，day等，(now()可换成具体的字段）</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 当前时间向前45天</span><br><span class="line">select date_sub(now(),interval 45 day);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>DATEDIFF（date1，date2)</code></p>
+<blockquote>
+<p>DATEDIFF计算两个日期之间间隔的天数，(时分秒不参与计算)</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 计算&#x27;2009-11-11 13:23:44.657&#x27;与&#x27;2008-11-10 14:23:44.657&#x27;之间相隔的天数，可能有负数</span><br><span class="line">SELECT DATEDIFF(&#x27;2009-11-11 13:23:44.657&#x27;,&#x27;2008-11-10 14:23:44.657&#x27;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>DATE_FORMAT(date,“日期格式”)</code></p>
+<blockquote>
+<p>按照自定义格式输出日期，(now()可换成具体的字段），其他格式零件请参考：<a href="https://www.runoob.com/sql/func-date-format.html">https://www.runoob.com/sql/func-date-format.html</a></p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 按照年-月-日的格式输出当前日期</span><br><span class="line">select DATE_FORMAT(now(),&quot;%m-%d-%Y&quot;);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>题目训练</category>
+      </categories>
+      <tags>
+        <tag>sql语句</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>我的第一篇博客</title>
     <url>/2024/08/07/%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E7%AF%87%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<p><img src="https://cdn.jsdelivr.net/gh/lilang9175/myblog@main/img/%25E5%25BE%25AE%25E4%25BF%25A1%25E5%259B%25BE%25E7%2589%2587_20240807155858.jpg"></p>
