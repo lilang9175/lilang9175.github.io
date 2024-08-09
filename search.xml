@@ -135,6 +135,19 @@
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">-- 按照年-月-日的格式输出当前日期</span><br><span class="line">select DATE_FORMAT(now(),&quot;%m-%d-%Y&quot;);</span><br></pre></td></tr></table></figure>
 
+<h4 id="min-函数"><a href="#min-函数" class="headerlink" title="min()函数"></a><code>min()</code>函数</h4><ul>
+<li><p><code>MIN()</code>函数返回一组值中的最小值。<code>MIN()</code>函数在某些情况下非常有用，例如找到最小的数字，选择最便宜的产品，获得最低的信用额度等。</p>
+<ul>
+<li><p>配送表: <code>Delivery</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+-----------------------------+---------+</span><br><span class="line">| Column Name                 | Type    |</span><br><span class="line">+-----------------------------+---------+</span><br><span class="line">| delivery_id                 | int     |</span><br><span class="line">| customer_id                 | int     |</span><br><span class="line">| order_date                  | date    |</span><br><span class="line">| customer_pref_delivery_date | date    |</span><br><span class="line">+-----------------------------+---------+</span><br><span class="line">delivery_id 是该表中具有唯一值的列。</span><br><span class="line">该表保存着顾客的食物配送信息，顾客在某个日期下了订单，并指定了一个期望的配送日期（和下单日期相同或者在那之后）。</span><br></pre></td></tr></table></figure>
+
+<p>如果顾客期望的配送日期和下单日期相同，则该订单称为 「<strong>即时订单</strong>」，否则称为「<strong>计划订单</strong>」。</p>
+<p>「<strong>首次订单</strong>」是顾客最早创建的订单。我们保证一个顾客只会有一个「首次订单」。</p>
+<p>编写解决方案以获取即时订单在所有用户的首次订单中的比例。<strong>保留两位小数。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">select round (</span><br><span class="line">    sum(order_date = customer_pref_delivery_date) * 100 /</span><br><span class="line">    count(*),</span><br><span class="line">    2</span><br><span class="line">) as immediate_percentage</span><br><span class="line">from Delivery</span><br><span class="line">where (customer_id, order_date) in (</span><br><span class="line">    select customer_id, min(order_date)</span><br><span class="line">    from delivery</span><br><span class="line">    group by customer_id</span><br><span class="line">)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>题目训练</category>
@@ -153,6 +166,175 @@
       </categories>
       <tags>
         <tag>博客</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java基础</title>
+    <url>/2024/08/09/Java%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><h4 id="Java为什么是跨平台的？"><a href="#Java为什么是跨平台的？" class="headerlink" title="Java为什么是跨平台的？"></a>Java为什么是跨平台的？</h4><ul>
+<li>Java 能支持跨平台，主要依赖于 JVM。</li>
+<li>JVM是一个软件，不同的平台有不同的版本。我们编写的Java源码，编译后会生成一种 .class 文件，称为字节码文件。Java虚拟机就是负责将字节码文件翻译成特定平台下的机器码然后运行。也就是说，只要在不同平台上安装对应的JVM，就可以运行字节码文件，运行我们编写的Java程序。</li>
+<li>而这个过程中，我们编写的Java程序没有做任何改变，仅仅是通过JVM这一”中间层“，就能在不同平台上运行，真正实现了”一次编译，到处运行“的目的。</li>
+<li>不同平台下编译生成的字节码是一样的，但是由JVM翻译成的机器码却不一样。跨平台的是Java程序，不是JVM。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/lilang9175/myblog@main/img/image-20240809072211839.png" alt="image-20240809072211839"></p>
+<h4 id="JVM、JDK、JRE三者关系？"><a href="#JVM、JDK、JRE三者关系？" class="headerlink" title="*JVM、JDK、JRE三者关系？"></a>*JVM、JDK、JRE三者关系？</h4><ul>
+<li><p>JVM是Java虚拟机，是Java程序运行的环境。它负责将Java字节码（由Java编译器生成）解释或编译成机器码，并执行程序。JVM提供了内存管理、垃圾回收、安全性等功能，使得Java程序具备跨平台性。</p>
+</li>
+<li><p>JDK是Java开发工具包，是开发Java程序所需的工具集合。它包含了JVM、编译器（javac）、调试器（jdb）等开发工具，以及一系列的类库（如Java标准库和开发工具库）。JDK提供了开发、编译、调试和运行Java程序所需的全部工具和环境。</p>
+</li>
+<li><p>JRE是Java运行时环境，是Java程序运行所需的最小环境。它包含了JVM和一组Java类库，用于支持Java程序的执行。JRE不包含开发工具，只提供Java程序运行所需的运行环境。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lilang9175/myblog@main/img/image-20240809081151208.png" alt="image-20240809081151208"></p>
+</li>
+</ul>
+<h4 id="为什么Java解释和编译都有？"><a href="#为什么Java解释和编译都有？" class="headerlink" title="为什么Java解释和编译都有？"></a>为什么Java解释和编译都有？</h4><ul>
+<li><p>编译性：Java源代码首先被编译成字节码，JIT 会把编译过的机器码保存起来,以备下次使用。</p>
+</li>
+<li><p>解释性：JVM中一个方法调用计数器，当累计计数大于一定值的时候，就使用JIT进行编译生成机器码文件。否则就是用解释器进行解释执行，然后字节码也是经过解释器进行解释运行的。</p>
+</li>
+<li><p>所以Java既是编译型也是解释性语言，默认采用的是解释器和编译器混合的模式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/lilang9175/myblog@main/img/image-20240809081832261.png" alt="image-20240809081832261"></p>
+</li>
+</ul>
+<h4 id="编译型语言和解释型语言的区别？"><a href="#编译型语言和解释型语言的区别？" class="headerlink" title="编译型语言和解释型语言的区别？"></a>编译型语言和解释型语言的区别？</h4><ul>
+<li>编译型语言：在程序执行之前，整个源代码会被编译成机器码或者字节码，生成可执行文件。执行时直接运行编译后的代码，速度快，但跨平台性较差。</li>
+<li>解释型语言：在程序执行时，逐行解释执行源代码，不生成独立的可执行文件。通常由解释器动态解释并执行代码，跨平台性好，但执行速度相对较慢。</li>
+<li>典型的编译型语言如C、C++，典型的解释型语言如Python、JavaScript。</li>
+</ul>
+<h4 id="Python和Java区别是什么？"><a href="#Python和Java区别是什么？" class="headerlink" title="Python和Java区别是什么？"></a>Python和Java区别是什么？</h4><ul>
+<li>Java是一种已编译的编程语言，Java编译器将源代码编译为字节码，而字节码则由Java虚拟机执行</li>
+<li>python是一种解释语言，通常由解释器动态解释并执行代码。</li>
+</ul>
+<h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><h4 id="八种基本的数据类型"><a href="#八种基本的数据类型" class="headerlink" title="八种基本的数据类型"></a>八种基本的数据类型</h4><ul>
+<li>数值型：整数类型（byte、short、int、long）和浮点类型（float、double）</li>
+<li>字符型：char</li>
+<li>布尔型：boolean</li>
+<li>java八种基本数据类型的字节数:1字节(byte、boolean)、 2字节(short、char)、4字节(int、float)、8字节(long、double)</li>
+<li>浮点数的默认类型为double（如果需要声明一个常量为float型，则必须要在末尾加上f或F）</li>
+<li>整数的默认类型为int（声明Long型在末尾加上l或者L）</li>
+<li>八种基本数据类型的包装类：除了char的是Character、int类型的是Integer，其他都是首字母大写</li>
+<li>char类型是无符号的，不能为负，所以是0开始的</li>
+</ul>
+<h4 id="long和int可以互转吗-？"><a href="#long和int可以互转吗-？" class="headerlink" title="long和int可以互转吗 ？"></a>long和int可以互转吗 ？</h4><ul>
+<li>可以的，Java中的<code>long</code>和<code>int</code>可以相互转换。由于<code>long</code> 类型的范围比<code>int</code>  类型大，因此将<code>int</code> 转换为<code>long</code>是安全的，而将<code>long</code>转换为<code>int</code><br> 可能会导致数据丢失或溢出。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/lilang9175/myblog@main/img/image-20240809085409967.png" alt="image-20240809085409967"></p>
+<ul>
+<li>在将<code>long</code>转换为<code>int</code>时，如果<code>longValue</code>的值超出了<code>int</code>类型的范围转换结果将是截断后的低位部分。因此，在进行转换之前，建议先检查<code>longValue</code>的值是否在<code>int</code>类型的范围内，以避免数据丢失或溢出的问题。</li>
+</ul>
+<h4 id="数据类型转换方式你知道哪些？"><a href="#数据类型转换方式你知道哪些？" class="headerlink" title="数据类型转换方式你知道哪些？"></a>数据类型转换方式你知道哪些？</h4><ul>
+<li><p>自动类型转换（隐式转换）：当目标类型的范围大于源类型时，Java会自动将源类型转换为目标类型，不需要显式的类型转换。例如，将<code>int</code><br>  转换为<code>long</code> 、将<code>float</code> 转换为<code>double</code> 等。</p>
+</li>
+<li><p>强制类型转换（显式转换）：当目标类型的范围小于源类型时，需要使用强制类型转换将源类型转换为目标类型。这可能导致数据丢失或溢出。例如，将<code>long</code> 转换为<code>int</code>、将<code>double</code>转换为<code>int</code>等。语法为：目标类型 变量名 &#x3D; (目标类型) 源类型。</p>
+</li>
+<li><p>字符串转换：Java提供了将字符串表示的数据转换为其他类型数据的方法。例如，将字符串转换为整型<code>int</code>，可以使用<code>Integer.parseInt()</code>方法；将字符串转换为浮点型<code>double</code> ，可以使用<code>Double.parseDouble()</code>方法等。</p>
+</li>
+<li><p>数值之间的转换：Java提供了一些数值类型之间的转换方法，如将整型转换为字符型、将字符型转换为整型等。这些转换方式可以通过类型的包装类来实现，例如<code>Character</code>类、<code>Integer</code>类等提供了相应的转换方法。</p>
+</li>
+</ul>
+<h4 id="类型互转会出现什么问题？"><a href="#类型互转会出现什么问题？" class="headerlink" title="类型互转会出现什么问题？"></a>类型互转会出现什么问题？</h4><ul>
+<li>数据丢失：范围大的数据类型转范围小的数据类型时有可能发生（<code>long</code>转<code>int</code>）</li>
+<li>数据溢出：范围小的数据类型转范围大的数据类型时有可能发生（<code>int</code>转<code>long</code>）</li>
+<li>精度丢失：单精度浮点型（<code>float</code>）转双精度浮点型（<code>double</code>）</li>
+<li>类型不匹配导致的错误：源类型与目标类型不兼容会导致编译时或运行时错误</li>
+</ul>
+<h4 id="为什么用BigDecimal-不用double-？"><a href="#为什么用BigDecimal-不用double-？" class="headerlink" title="*为什么用BigDecimal 不用double ？"></a>*为什么用BigDecimal 不用double ？</h4><ul>
+<li>double会出现精度丢失的问题，double执行的是二进制浮点运算，二进制有些情况下不能准确的表示一个小数，就像十进制不能准确的表示1&#x2F;3(1&#x2F;3&#x3D;0.3333…)</li>
+<li>BigDecimal 是精确计算 ,  所以一般牵扯到金钱的计算 , 都使用 BigDecimal可以确保精确的十进制数值计算，避免了使用<code>double</code> 可能出现的舍入误差。需要注意的是，在创建<code>BigDecimal</code> 对象时，应该使用字符串作为参数，而不是直接使用浮点数值，以避免浮点数精度丢失。</li>
+</ul>
+<h4 id="装箱和拆箱是什么？"><a href="#装箱和拆箱是什么？" class="headerlink" title="*装箱和拆箱是什么？"></a>*装箱和拆箱是什么？</h4><ul>
+<li><p>装箱（Boxing）和拆箱（Unboxing）是将基本数据类型和对应的包装类之间进行转换的过程。</p>
+</li>
+<li><p>自动装箱主要发生在两种情况，一种是赋值时，另一种是在方法调用的时候。</p>
+<ul>
+<li>赋值时</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">iObject</span> <span class="operator">=</span> Integer.valueOf(<span class="number">3</span>);</span><br><span class="line"><span class="type">Int</span> <span class="variable">iPrimitive</span> <span class="operator">=</span> iObject.intValue()</span><br><span class="line"></span><br><span class="line"><span class="comment">//after java5</span></span><br><span class="line"><span class="type">Integer</span> <span class="variable">iObject</span> <span class="operator">=</span> <span class="number">3</span>; <span class="comment">//autobxing - primitive to wrapper conversion</span></span><br><span class="line"><span class="type">int</span> <span class="variable">iPrimitive</span> <span class="operator">=</span> iObject; <span class="comment">//unboxing - object to primitive conversion</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>方法调用:当我们在方法调用时，我们可以传入原始数据值或者对象，同样编译器会帮我们进行转换</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title function_">show</span><span class="params">(Integer iParam)</span>&#123;</span><br><span class="line">     System.out.println(<span class="string">&quot;autoboxing example - method invocation i: &quot;</span> + iParam);</span><br><span class="line">    <span class="keyword">return</span> iParam;</span><br><span class="line">    &#125;</span><br><span class="line">show(<span class="number">3</span>); <span class="comment">//autoboxing</span></span><br><span class="line"><span class="type">int</span> <span class="variable">result</span> <span class="operator">=</span> show(<span class="number">3</span>);<span class="comment">//unboxing because return type of method is Integer</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>自动装箱有一个问题，那就是在一个循环中进行自动装箱操作的情况，如下面的例子就会创建多余的对象，影响程序的性能。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="type">Integer</span> <span class="variable">sum</span> <span class="operator">=</span> <span class="number">0</span>; <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1000</span>; i&lt;<span class="number">5000</span>; i++)&#123;   sum+=i; &#125; </span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>由于我们这里声明的sum为Integer类型，在上面的循环中会创建将近4000个无用的Integer对象，在这样庞大的循环中，会降低程序的性能并且加重了垃圾回收的工作量。因此在我们编程时，需要注意到这一点，正确地声明变量类型，避免因为自动装箱引起的性能问题。</li>
+</ul>
+</li>
+</ul>
+<h4 id="Java为什么要有Integer？"><a href="#Java为什么要有Integer？" class="headerlink" title="Java为什么要有Integer？"></a>Java为什么要有Integer？</h4><ul>
+<li><code>Integer</code>对应是<code>int</code>类型的包装类，就是把<code>int</code>类型包装成<code>Object</code>对象，对象封装有很多好处，可以把属性也就是数据跟处理这些数据的方法结合在一起，比如<code>Integer</code>就有<code>parseInt()</code>等方法来专门处理<code>int</code>型相关的数据。</li>
+<li>另一个非常重要的原因就是在Java中绝大部分方法或类都是用来处理类类型对象的。</li>
+<li>泛型中的应用：在Java中，泛型只能使用引用类型，而不能使用基本类型。因此，如果要在泛型中使用int类型，必须使用Integer包装类。</li>
+<li>转换中的应用：在Java中，基本类型和引用类型不能直接进行转换，必须使用包装类来实现。</li>
+<li>集合中的应用： Java集合中只能存储对象，而不能存储基本数据类型。</li>
+</ul>
+<h4 id="int类型的优点"><a href="#int类型的优点" class="headerlink" title="int类型的优点"></a>int类型的优点</h4><ul>
+<li>包装类是引用类型，对象的引用和对象本身是分开存储的，而对于基本类型数据，变量对应的内存块直接存储数据本身。</li>
+<li>因此，基本类型数据在读写效率方面，要比包装类高效。除此之外，在64位JVM上，在开启引用压缩的情况下，一个Integer对象占用16个字节的内存空间，而一个int类型数据只占用4字节的内存空间，前者对空间的占用是后者的4倍。</li>
+<li>也就是说，不管是读写效率，还是存储效率，基本类型都比包装类高效。</li>
+</ul>
+<h4 id="说一下-integer的缓存"><a href="#说一下-integer的缓存" class="headerlink" title="*说一下 integer的缓存"></a>*说一下 integer的缓存</h4><ul>
+<li><code>Java</code>的<code>Integer</code>类内部实现了一个静态缓存池，用于存储特定范围内的整数值对应的Integer对象。</li>
+<li>默认情况下，这个范围是-128至127。当通过<code>Integer.valueOf(int)</code>方法创建一个在这个范围内的整数对象时，并不会每次都生成新的对象实例，而是复用缓存中的现有对象，会直接从内存中取出，不需要新建一个对象。</li>
+</ul>
+<h3 id="面向对象"><a href="#面向对象" class="headerlink" title="面向对象"></a>面向对象</h3><h4 id="怎么理解面向对象？简单说说封装继承多态"><a href="#怎么理解面向对象？简单说说封装继承多态" class="headerlink" title="*怎么理解面向对象？简单说说封装继承多态"></a>*怎么理解面向对象？简单说说封装继承多态</h4><ul>
+<li><p>面向对象是一种编程范式，它<strong>将现实世界中的事物抽象为对象</strong>，对象具有属性（称为字段或属性）和行为（称为方法）。面向对象编程的设计思想是以对象为中心，通过对象之间的交互来完成程序的功能，具有灵活性和可扩展性，通过封装和继承可以更好地应对需求变化。</p>
+</li>
+<li><p>Java面向对象的三大特性包括：</p>
+<ul>
+<li>封装： 封装是指将对象的属性（数据）和行为（方法）结合在一起，对外隐藏对象的内部细节，仅通过对象提供的接口与外界交互。封装的目的是增强安全性和简化编程，使得对象更加独立。</li>
+<li>继承： 继承是一种可以使得子类自动共享父类数据结构和方法的机制。它是代码复用的重要手段，通过继承可以建立类与类之间的层次关系，使得结构更加清晰。</li>
+<li>多态： 多态是指允许不同类的对象对同一消息作出响应。即同一个接口，使用不同的实例而执行不同操作。多态性可以分为编译时多态（重载）和运行时多态（重写）。它使得程序具有良好的灵活性和扩展性。对多态的详细解释见：<a href="https://blog.csdn.net/weixin_43951932/article/details/88891517">java面向对象三大特性之多态—编译时多态和运行时多态详解-CSDN博客</a></li>
+</ul>
+</li>
+</ul>
+<h4 id="重载与重写有什么区别？"><a href="#重载与重写有什么区别？" class="headerlink" title="重载与重写有什么区别？"></a>重载与重写有什么区别？</h4><ul>
+<li>重载（Overloading）指的是在同一个类中，可以有多个同名方法，它们具有不同的参数列表（参数类型、参数个数或参数顺序不同），编译器根据调用时的参数类型来决定调用哪个方法。</li>
+<li>重写（Overriding）指的是子类可以重新定义父类中的方法，方法名、参数列表和返回类型必须与父类中的方法一致，通过@override注解来明确表示这是对父类方法的重写。</li>
+<li>重载是指在同一个类中定义多个同名方法，而重写是指子类重新定义父类中的方法。</li>
+</ul>
+<h4 id="Java抽象类，接口，普通类的区别是什么？"><a href="#Java抽象类，接口，普通类的区别是什么？" class="headerlink" title="*Java抽象类，接口，普通类的区别是什么？"></a>*Java抽象类，接口，普通类的区别是什么？</h4><ul>
+<li>实例化：普通类可以直接实例化对象，而抽象类和接口不能被实例化，只能被继承或实现。</li>
+<li>方法实现：普通类中的方法可以有具体的实现。接口只有定义，不能有方法的实现，java 1.8中可以定义default方法体，而抽象类可以有定义与实现，方法可在抽象类中实现。实现接口的关键字为implements，继承抽象类的关键字为extends。一个类可以实现多个接口，但一个类只能继承一个抽象类。所以，使用接口可以间接地实现多重继承。</li>
+<li>继承：一个类可以继承一个普通类，而且可以继承该普通类的多个接口；而一个类只能继承一个抽象类，但可以同时实现多个接口。</li>
+<li>访问修饰符：接口成员变量默认为public static final，必须赋初值，不能被修改；其所有的成员方法都是public、abstract的。抽象类中成员变量默认default，可在子类中被重新定义，也可被重新赋值；抽象方法被abstract修饰，不能被private、static、synchronized和native等修饰，必须以分号结尾，不带花括号。</li>
+<li>变量：抽象类可以包含实例变量和静态变量，而接口只能包含常量（即静态常量）。</li>
+</ul>
+<h4 id="接口里面可以定义哪些方法？"><a href="#接口里面可以定义哪些方法？" class="headerlink" title="接口里面可以定义哪些方法？"></a>接口里面可以定义哪些方法？</h4><ul>
+<li><p>抽象方法</p>
+<ul>
+<li><p>抽象方法是接口的核心部分，所有实现接口的类都必须实现这些方法。抽象方法默认是 public 和abstract，这些修饰符可以省略。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>默认方法</p>
+<ul>
+<li><p>默认方法是在 Java 8 中引入的，允许接口提供具体实现。实现类可以选择重写默认方法。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">default</span> <span class="keyword">void</span> <span class="title function_">sleep</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Sleeping...&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>静态方法</p>
+<ul>
+<li><p>静态方法也是在 Java 8 中引入的，它们属于接口本身，可以通过接口名直接调用，而不需要实现类的对象。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">staticMethod</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">staticMethod</span><span class="params">()</span> &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>私有方法</p>
+<ul>
+<li><p>私有方法是在 Java 9 中引入的，用于在接口中为默认方法或其他私有方法提供辅助功能。这些方法不能被实现类访问，只能在接口内部使用。</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span>;</span><br><span class="line">    <span class="keyword">default</span> <span class="keyword">void</span> <span class="title function_">sleep</span><span class="params">()</span> &#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Sleeping...&quot;</span>);</span><br><span class="line">        logSleep();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title function_">logSleep</span><span class="params">()</span> &#123;</span><br><span class="line">         System.out.println(<span class="string">&quot;Logging sleep&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">Animal</span> &#123;</span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">makeSound</span><span class="params">()</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<h4 id="非静态内部类和静态内部类的区别？"><a href="#非静态内部类和静态内部类的区别？" class="headerlink" title="非静态内部类和静态内部类的区别？"></a>非静态内部类和静态内部类的区别？</h4>]]></content>
+      <categories>
+        <category>Java基础</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
       </tags>
   </entry>
   <entry>

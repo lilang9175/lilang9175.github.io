@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2024-08-08T12:56:53.366Z</updated>
+  <updated>2024-08-09T14:14:00.628Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Java基础</title>
+    <link href="http://example.com/2024/08/09/Java%E5%9F%BA%E7%A1%80/"/>
+    <id>http://example.com/2024/08/09/Java%E5%9F%BA%E7%A1%80/</id>
+    <published>2024-08-08T23:13:48.000Z</published>
+    <updated>2024-08-09T14:14:00.628Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;概念&quot;&gt;&lt;a href=&quot;#概念&quot; class=&quot;headerlink&quot; title=&quot;概念&quot;&gt;&lt;/a&gt;概念&lt;/h3&gt;&lt;h4 id=&quot;Java为什么是跨平台的？&quot;&gt;&lt;a href=&quot;#Java为什么是跨平台的？&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="Java基础" scheme="http://example.com/categories/Java%E5%9F%BA%E7%A1%80/"/>
+    
+    
+    <category term="Java" scheme="http://example.com/tags/Java/"/>
+    
+  </entry>
+  
+  <entry>
     <title>mysql题目练习</title>
     <link href="http://example.com/2024/08/08/mysql%E9%A2%98%E7%9B%AE%E7%BB%83%E4%B9%A0/"/>
     <id>http://example.com/2024/08/08/mysql%E9%A2%98%E7%9B%AE%E7%BB%83%E4%B9%A0/</id>
     <published>2024-08-08T09:12:40.000Z</published>
-    <updated>2024-08-08T12:56:53.366Z</updated>
+    <updated>2024-08-09T14:16:09.286Z</updated>
     
     
       

@@ -85,7 +85,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">794</span>
+            <span class="post-count">1.1k</span>
         </span>
     </span>
 
@@ -94,7 +94,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3 分钟</span>
+            <span class="post-count">4 分钟</span>
         </span>
     </span>
 </div>
@@ -220,6 +220,19 @@
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-- 按照年-月-日的格式输出当前日期</span><br><span class="line">select DATE_FORMAT(now(),&quot;%m-%d-%Y&quot;);</span><br></pre></td></tr></table></figure>
 
+<h4 id="min-函数"><a href="#min-函数" class="headerlink" title="min()函数"></a><code>min()</code>函数</h4><ul>
+<li><p><code>MIN()</code>函数返回一组值中的最小值。<code>MIN()</code>函数在某些情况下非常有用，例如找到最小的数字，选择最便宜的产品，获得最低的信用额度等。</p>
+<ul>
+<li><p>配送表: <code>Delivery</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">+-----------------------------+---------+</span><br><span class="line">| Column Name                 | Type    |</span><br><span class="line">+-----------------------------+---------+</span><br><span class="line">| delivery_id                 | int     |</span><br><span class="line">| customer_id                 | int     |</span><br><span class="line">| order_date                  | date    |</span><br><span class="line">| customer_pref_delivery_date | date    |</span><br><span class="line">+-----------------------------+---------+</span><br><span class="line">delivery_id 是该表中具有唯一值的列。</span><br><span class="line">该表保存着顾客的食物配送信息，顾客在某个日期下了订单，并指定了一个期望的配送日期（和下单日期相同或者在那之后）。</span><br></pre></td></tr></table></figure>
+
+<p>如果顾客期望的配送日期和下单日期相同，则该订单称为 「<strong>即时订单</strong>」，否则称为「<strong>计划订单</strong>」。</p>
+<p>「<strong>首次订单</strong>」是顾客最早创建的订单。我们保证一个顾客只会有一个「首次订单」。</p>
+<p>编写解决方案以获取即时订单在所有用户的首次订单中的比例。<strong>保留两位小数。</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">select round (</span><br><span class="line">    sum(order_date = customer_pref_delivery_date) * 100 /</span><br><span class="line">    count(*),</span><br><span class="line">    2</span><br><span class="line">) as immediate_percentage</span><br><span class="line">from Delivery</span><br><span class="line">where (customer_id, order_date) in (</span><br><span class="line">    select customer_id, min(order_date)</span><br><span class="line">    from delivery</span><br><span class="line">    group by customer_id</span><br><span class="line">)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
  
       <!-- reward -->
       
@@ -284,6 +297,15 @@
 
    
   <nav class="article-nav">
+    
+      <a href="/2024/08/09/Java%E5%9F%BA%E7%A1%80/" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Java基础
+          
+        </div>
+      </a>
     
     
       <a href="/2024/08/08/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C-%E5%9F%BA%E7%A1%80%E7%AF%87/" class="article-nav-link">
